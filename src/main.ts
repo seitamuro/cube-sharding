@@ -14,7 +14,17 @@ const scene = new THREE.Scene();
 
 // const textureLoader = new THREE.TextureLoader();
 
-const geometry = new THREE.PlaneGeometry(1, 1, 32, 32);
+const widthSegments = 30;
+const heightSegments = 30;
+const depthSegments = 30;
+const geometry = new THREE.BoxGeometry(
+  1,
+  1,
+  1,
+  widthSegments,
+  heightSegments,
+  depthSegments
+);
 
 const count = geometry.attributes.position.count;
 
@@ -23,6 +33,14 @@ for (let i = 0; i < count; i++) {
   aRandom[i] = Math.random();
 }
 geometry.setAttribute("aRandom", new THREE.BufferAttribute(aRandom, 1));
+geometry.setAttribute(
+  "aNormal",
+  new THREE.BufferAttribute(geometry.attributes.normal.array, 3)
+);
+geometry.setAttribute(
+  "aWidthSegments",
+  new THREE.BufferAttribute(new Float32Array(widthSegments), 1)
+);
 
 const material = new THREE.RawShaderMaterial({
   vertexShader: vertexShader,
